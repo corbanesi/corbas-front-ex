@@ -1,37 +1,35 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { Link, useNavigate } from "@tanstack/react-router"
-import type { FormEvent } from "react"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Link, useNavigate } from "@tanstack/react-router";
+import type { FormEvent } from "react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-
   const navigate = useNavigate();
 
   function handleLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    console.log("asdasdasd")
+    console.log("asdasdasd");
     navigate({
-      to: "/dashboard"
+      to: "/dashboard",
     });
-
   }
 
   return (
@@ -65,7 +63,12 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required autoComplete="off" />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  autoComplete="off"
+                />
               </Field>
               <Field>
                 <Button type="submit">Login</Button>
@@ -81,5 +84,5 @@ export function LoginForm({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
