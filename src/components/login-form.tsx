@@ -14,7 +14,8 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { useNavigate } from "@tanstack/react-router"
+import { Link, useNavigate } from "@tanstack/react-router"
+import type { FormEvent } from "react"
 
 export function LoginForm({
   className,
@@ -23,7 +24,7 @@ export function LoginForm({
 
   const navigate = useNavigate();
 
-  function handleLogin(e: Event) {
+  function handleLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     console.log("asdasdasd")
@@ -43,7 +44,7 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={() => handleLogin}>
+          <form onSubmit={handleLogin}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -64,7 +65,7 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" type="password" required autoComplete="off" />
               </Field>
               <Field>
                 <Button type="submit">Login</Button>
@@ -72,7 +73,7 @@ export function LoginForm({
                   Login with Google
                 </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
+                  Don&apos;t have an account? <Link to="/signup">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
