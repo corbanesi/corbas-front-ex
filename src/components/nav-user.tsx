@@ -39,7 +39,7 @@ export function NavUser({
 
   function handleLogout() {
     navigate({
-      to: "/login"
+      to: "/login",
     });
   }
 

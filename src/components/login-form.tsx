@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,22 +14,41 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Link, useNavigate } from "@tanstack/react-router";
-import type { FormEvent } from "react";
+import { BatteryWarning } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+import { Link } from "@tanstack/react-router";
+import { useState, type FormEvent } from "react";
+
+interface LoginFormProps extends React.ComponentProps<"div"> {
+  onSubmitSuccess: () => void;
+}
 
 export function LoginForm({
   className,
+  onSubmitSuccess,
   ...props
-}: React.ComponentProps<"div">) {
-  const navigate = useNavigate();
+}: LoginFormProps) {
+  const [hasError, setError] = useState(false);
 
-  function handleLogin(e: FormEvent<HTMLFormElement>) {
+  function handleLoginFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setError(false);
 
-    console.log("asdasdasd");
-    navigate({
-      to: "/dashboard",
-    });
+    const formData = new FormData(e.currentTarget);
+
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    console.log({ email, password });
+
+    if (email !== "test@example.com") {
+      setError(true);
+      return;
+    }
+
+    onSubmitSuccess();
   }
 
   return (
@@ -42,13 +61,14 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLoginFormSubmit}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
                   type="email"
+                  name="email"
                   placeholder="m@example.com"
                   required
                 />
@@ -66,6 +86,7 @@ export function LoginForm({
                 <Input
                   id="password"
                   type="password"
+                  name="password"
                   required
                   autoComplete="off"
                 />
@@ -83,6 +104,14 @@ export function LoginForm({
           </form>
         </CardContent>
       </Card>
+      {hasError && (
+        <>
+          <Alert variant={"destructive"}>
+            <BatteryWarning />
+            <AlertTitle>Invalid username or password</AlertTitle>
+          </Alert>
+        </>
+      )}
     </div>
   );
 }
