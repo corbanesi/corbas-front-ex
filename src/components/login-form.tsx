@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 
 import { Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
+import { Spinner } from "./ui/spinner";
 
 interface LoginFormProps extends React.ComponentProps<"div"> {
   onSubmitSuccess: () => void;
@@ -31,12 +32,16 @@ export function LoginForm({
   ...props
 }: LoginFormProps) {
   const [hasError, setError] = useState(false);
+  const [isLoggingIn, setLogginIn] = useState(false);
 
-  function handleLoginFormSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleLoginFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(false);
+    setLogginIn(true);
 
     const formData = new FormData(e.currentTarget);
+
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const email = formData.get("email");
     const password = formData.get("password");
@@ -45,6 +50,7 @@ export function LoginForm({
 
     if (email !== "test@example.com") {
       setError(true);
+      setLogginIn(false);
       return;
     }
 
@@ -92,9 +98,11 @@ export function LoginForm({
                 />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
-                <Button variant="outline" type="button">
-                  Login with Google
+                <Button type="submit">
+                  {
+                    isLoggingIn && <Spinner />
+                  }
+                  Login
                 </Button>
                 <FieldDescription className="text-center">
                   Don&apos;t have an account? <Link to="/signup">Sign up</Link>
