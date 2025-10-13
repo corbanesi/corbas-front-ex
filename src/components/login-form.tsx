@@ -41,7 +41,7 @@ export function LoginForm({
 
     const formData = new FormData(e.currentTarget);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const email = formData.get("email");
     const password = formData.get("password");
@@ -99,9 +99,7 @@ export function LoginForm({
               </Field>
               <Field>
                 <Button type="submit">
-                  {
-                    isLoggingIn && <Spinner />
-                  }
+                  {isLoggingIn && <Spinner />}
                   Login
                 </Button>
                 <FieldDescription className="text-center">

@@ -1,4 +1,9 @@
-import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react";
+import {
+  IconCirclePlus,
+  IconCirclePlusFilled,
+  IconMail,
+  type Icon,
+} from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -8,6 +13,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Link } from "@tanstack/react-router";
 
 export function NavMain({
   items,
@@ -23,11 +29,8 @@ export function NavMain({
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              tooltip="Quick Create"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
-            >
-              <IconCirclePlusFilled />
+            <SidebarMenuButton tooltip="Quick Create">
+              <IconCirclePlus />
               <span>Quick Create</span>
             </SidebarMenuButton>
             <Button
@@ -43,9 +46,17 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
+              <SidebarMenuButton tooltip={item.title} asChild>
+                <Link
+                  to={item.url}
+                  activeProps={{
+                    className:
+                      "active-link-class bg-primary text-primary-foreground hover:bg-primary/90 transition-colors hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear",
+                  }}
+                >
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
