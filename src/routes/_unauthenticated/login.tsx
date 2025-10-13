@@ -1,7 +1,7 @@
 import { LoginForm } from "@/components/login-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/_unauthenticated/login")({
   component: RouteComponent,
 });
 
@@ -10,7 +10,7 @@ function RouteComponent() {
 
   function handleLoginSucess() {
     navigate({
-      to: "/dashboard",
+      to: "/corbas/users",
     });
   }
 
