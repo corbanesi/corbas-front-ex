@@ -10,7 +10,7 @@ function RouteComponent() {
 
   function handleLoginSucess() {
     navigate({
-      to: "/corbas/users",
+      to: "/corbas/dashboard",
     });
   }
 

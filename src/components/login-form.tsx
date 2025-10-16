@@ -98,12 +98,12 @@ export function LoginForm({
                 />
               </Field>
               <Field>
-                <Button type="submit">
+                <Button type="submit" data-test="btn-login">
                   {isLoggingIn && <Spinner />}
                   Login
                 </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <Link to="/signup">Sign up</Link>
+                  Don&apos;t have an account? <Link to="/signup" data-test="link-signup">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
@@ -112,7 +112,7 @@ export function LoginForm({
       </Card>
       {hasError && (
         <>
-          <Alert variant={"destructive"}>
+          <Alert variant={"destructive"} data-test="alert">
             <BatteryWarning />
             <AlertTitle>Invalid username or password</AlertTitle>
           </Alert>
