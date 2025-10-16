@@ -2,6 +2,13 @@ import { LoginForm } from "@/components/login-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_unauthenticated/login")({
+  head: () => ({
+    meta: [
+      {
+        title: 'Login | Corbas Corp.',
+      }
+    ]
+  }),
   component: RouteComponent,
 });
 

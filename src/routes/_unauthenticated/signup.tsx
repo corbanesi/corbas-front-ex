@@ -2,6 +2,13 @@ import { SignupForm } from "@/components/signup-form";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_unauthenticated/signup")({
+  head: () => ({
+    meta: [
+      {
+        title: 'Sign Up | Corbas Corp.',
+      }
+    ]
+  }),
   component: RouteComponent,
 });
 

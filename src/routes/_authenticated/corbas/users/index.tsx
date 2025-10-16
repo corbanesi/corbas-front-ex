@@ -37,6 +37,13 @@ const users: Users[] = [
 ];
 
 export const Route = createFileRoute("/_authenticated/corbas/users/")({
+  head: () => ({
+    meta: [
+      {
+        title: 'Users | Corbas Corp.',
+      }
+    ]
+  }),
   component: RouteComponent,
 });
 
