@@ -143,8 +143,8 @@ export function LoginForm({
       </CardContent>
       <CardFooter>
         <FieldGroup>
-          <Field orientation="horizontal">
-            <Button type="submit" form="login-form" >
+          <Field>
+            <Button type="submit" form="login-form" className="w-full" data-test="btn-login">
               {isLoggingIn && <Spinner />}
               Login
             </Button>
