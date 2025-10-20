@@ -5,7 +5,7 @@ export const Route = createFileRoute("/_unauthenticated/signup")({
   head: () => ({
     meta: [
       {
-        title: 'Sign Up | Corbas Corp.',
+        title: 'Sign Up',
       }
     ]
   }),

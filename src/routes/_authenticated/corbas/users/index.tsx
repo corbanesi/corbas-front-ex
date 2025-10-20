@@ -40,7 +40,7 @@ export const Route = createFileRoute("/_authenticated/corbas/users/")({
   head: () => ({
     meta: [
       {
-        title: 'Users | Corbas Corp.',
+        title: 'Users',
       }
     ]
   }),
@@ -49,7 +49,6 @@ export const Route = createFileRoute("/_authenticated/corbas/users/")({
 
 function RouteComponent() {
   return <>
-    <SiteHeader />
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2 md:py-6 space-y-4">
         <div className="grid auto-rows-min gap-4 md:grid-cols-3 px-4 lg:px-6">

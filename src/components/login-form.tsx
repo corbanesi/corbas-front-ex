@@ -4,12 +4,14 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
@@ -18,37 +20,57 @@ import { BatteryWarning } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+import { useForm } from "@tanstack/react-form";
 import { Link } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+
+import { useState } from "react";
+import z from "zod";
 import { Spinner } from "./ui/spinner";
 
 interface LoginFormProps extends React.ComponentProps<"div"> {
   onSubmitSuccess: () => void;
 }
+const loginSchema = z.object({
+  email: z.email(),
+  password: z.string().min(1, "Password must be provided")
+})
 
 export function LoginForm({
   className,
   onSubmitSuccess,
   ...props
 }: LoginFormProps) {
+
   const [hasError, setError] = useState(false);
   const [isLoggingIn, setLogginIn] = useState(false);
 
-  async function handleLoginFormSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      password: ""
+    },
+    validators: {
+      onSubmit: loginSchema
+    },
+    onSubmit: async ({ value }) => {
+      console.log(value)
+      handleLoginFormSubmit(value);
+    }
+  })
+
+  async function handleLoginFormSubmit(form: {
+    email: string;
+    password: string;
+  }) {
+
     setError(false);
     setLogginIn(true);
 
-    const formData = new FormData(e.currentTarget);
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log(form);
 
-    const email = formData.get("email");
-    const password = formData.get("password");
-
-    console.log({ email, password });
-
-    if (email !== "test@example.com") {
+    if (form.email !== "test@example.com") {
       setError(true);
       setLogginIn(false);
       return;
@@ -57,67 +79,89 @@ export function LoginForm({
     onSubmitSuccess();
   }
 
-  return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLoginFormSubmit}>
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="m@example.com"
-                  required
-                />
-              </Field>
-              <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  name="password"
-                  required
-                  autoComplete="off"
-                />
-              </Field>
-              <Field>
-                <Button type="submit" data-test="btn-login">
-                  {isLoggingIn && <Spinner />}
-                  Login
-                </Button>
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <Link to="/signup" data-test="link-signup">Sign up</Link>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-      {hasError && (
-        <>
-          <Alert variant={"destructive"} data-test="alert">
-            <BatteryWarning />
-            <AlertTitle>Invalid username or password</AlertTitle>
-          </Alert>
-        </>
-      )}
-    </div>
-  );
+  return <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <Card>
+      <CardHeader>
+        <CardTitle>Login to your account</CardTitle>
+        <CardDescription>
+          Enter your email below to login to your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form id="login-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            form.handleSubmit();
+          }}>
+          <FieldGroup>
+            <form.Field
+              name="email"
+              children={(field) => {
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel htmlFor={field.name}>E-mail</FieldLabel>
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      aria-invalid={isInvalid}
+                      placeholder="email@domain.com"
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </Field>
+                )
+              }} />
+            <form.Field
+              name="password"
+              children={(field) => {
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      aria-invalid={isInvalid}
+                      placeholder="***"
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </Field>
+                )
+              }} />
+          </FieldGroup>
+        </form>
+      </CardContent>
+      <CardFooter>
+        <FieldGroup>
+          <Field orientation="horizontal">
+            <Button type="submit" form="login-form" >
+              {isLoggingIn && <Spinner />}
+              Login
+            </Button>
+            <FieldDescription className="text-center">
+              Don&apos;t have an account? <Link to="/signup" data-test="link-signup">Sign up</Link>
+            </FieldDescription>
+          </Field>
+        </FieldGroup>
+      </CardFooter>
+    </Card>
+    {hasError && (
+      <>
+        <Alert variant={"destructive"} data-test="alert">
+          <BatteryWarning />
+          <AlertTitle>Invalid username or password</AlertTitle>
+        </Alert>
+      </>
+    )}
+  </div>
 }
