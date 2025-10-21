@@ -1,7 +1,13 @@
-import { SiteHeader } from "@/components/site-header";
+import { DataTable } from "@/components/tables/data-table";
 import { createFileRoute } from "@tanstack/react-router";
-import { DataTable } from "./data-table";
-import { usersColumns, type Users } from "./users-columns";
+import { type ColumnDef } from "@tanstack/react-table";
+
+type Users = {
+  id: string;
+  name: string;
+  email: string;
+  role: "ADMIN" | "MANAGER" | "USER"
+}
 
 const users: Users[] = [
   { id: "u001", name: "Alice Johnson", email: "alice.johnson@example.com", role: "ADMIN" },
@@ -35,6 +41,25 @@ const users: Users[] = [
   { id: "u029", name: "Clara Diaz", email: "clara.diaz@example.com", role: "USER" },
   { id: "u030", name: "Daniel Perez", email: "daniel.perez@example.com", role: "USER" },
 ];
+
+const usersColumns: ColumnDef<Users>[] = [
+  {
+    accessorKey: "id",
+    header: "#",
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "email",
+    header: "E-mail",
+  },
+  {
+    accessorKey: "role",
+    header: "Role",
+  },
+]
 
 export const Route = createFileRoute("/_authenticated/corbas/users/")({
   head: () => ({
