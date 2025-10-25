@@ -1,14 +1,13 @@
-import * as React from "react";
 import {
   closestCenter,
   DndContext,
+  type DragEndEvent,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
+  type UniqueIdentifier,
   useSensor,
   useSensors,
-  type DragEndEvent,
-  type UniqueIdentifier,
 } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
@@ -47,11 +46,11 @@ import {
   useReactTable,
   type VisibilityState,
 } from "@tanstack/react-table";
+import * as React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { useIsMobile } from "@/hooks/use-mobile";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -98,16 +97,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useIsMobile } from "@/hooks/use-mobile";
+import type { invoiceSchema } from "@/lib/mockApi";
 
-export const schema = z.object({
-  id: z.number(),
-  header: z.string(),
-  type: z.string(),
-  status: z.string(),
-  target: z.string(),
-  limit: z.string(),
-  reviewer: z.string(),
-});
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: number }) {
@@ -129,7 +121,7 @@ function DragHandle({ id }: { id: number }) {
   );
 }
 
-const columns: ColumnDef<z.infer<typeof schema>>[] = [
+const columns: ColumnDef<z.infer<typeof invoiceSchema>>[] = [
   {
     id: "drag",
     header: () => null,
@@ -304,7 +296,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
 ];
 
-function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
+function DraggableRow({ row }: { row: Row<z.infer<typeof invoiceSchema>> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.id,
   });
@@ -332,7 +324,7 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 export function DataTable({
   data: initialData,
 }: {
-  data: z.infer<typeof schema>[];
+  data: z.infer<typeof invoiceSchema>[];
 }) {
   const [data, setData] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -490,9 +482,9 @@ export function DataTable({
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext(),
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
                         </TableHead>
                       );
                     })}
@@ -640,7 +632,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
+function TableCellViewer({ item }: { item: z.infer<typeof invoiceSchema> }) {
   const isMobile = useIsMobile();
 
   return (
