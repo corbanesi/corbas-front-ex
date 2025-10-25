@@ -12,9 +12,9 @@ export const Route = createFileRoute("/_authenticated/corbas/dashboard/")({
   head: () => ({
     meta: [
       {
-        title: 'Dashboard',
-      }
-    ]
+        title: "Dashboard",
+      },
+    ],
   }),
   component: RouteComponent,
 });
@@ -28,7 +28,7 @@ function RouteComponent() {
       <div className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            <SectionCards data={overviewQuery.data}/>
+            <SectionCards data={overviewQuery.data} />
             <div className="px-4 lg:px-6">
               <ChartAreaInteractive />
             </div>

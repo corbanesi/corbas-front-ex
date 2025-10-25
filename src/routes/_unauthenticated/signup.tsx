@@ -5,9 +5,9 @@ export const Route = createFileRoute("/_unauthenticated/signup")({
   head: () => ({
     meta: [
       {
-        title: 'Sign Up',
-      }
-    ]
+        title: "Sign Up",
+      },
+    ],
   }),
   component: RouteComponent,
 });

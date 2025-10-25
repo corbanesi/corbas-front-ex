@@ -1,17 +1,21 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { QueryClient } from "@tanstack/react-query";
-import { HeadContent, Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import {
+  HeadContent,
+  Outlet,
+  createRootRouteWithContext,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient
+  queryClient: QueryClient;
 }>()({
   head: () => ({
     meta: [
       {
-        title: 'Corbas Corp.',
-      }
-    ]
+        title: "Corbas Corp.",
+      },
+    ],
   }),
   component: RootComponent,
 });
@@ -30,7 +34,8 @@ function RootComponent() {
             name: "Tanstack Router",
             render: <TanStackRouterDevtoolsPanel />,
           },
-        ]} />
+        ]}
+      />
     </>
   );
 }

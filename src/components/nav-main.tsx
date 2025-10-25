@@ -1,8 +1,4 @@
-import {
-  IconCirclePlus,
-  IconMail,
-  type Icon
-} from "@tabler/icons-react";
+import { IconCirclePlus, IconMail, type Icon } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
 import {
