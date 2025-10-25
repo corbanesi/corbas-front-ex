@@ -7,8 +7,15 @@ import { invoicesQueryOptions, overviewQueryOptions } from "@/lib/queryOptions";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_authenticated/corbas/dashboard/")({
-  loader: (opts) =>
-    opts.context.queryClient.ensureQueryData(invoicesQueryOptions()),
+  loader: async (opts) => {
+    const data = await opts.context.queryClient.ensureQueryData(
+      invoicesQueryOptions(),
+    );
+    return {
+      crumb: "Dashboard",
+      data,
+    };
+  },
   head: () => ({
     meta: [
       {

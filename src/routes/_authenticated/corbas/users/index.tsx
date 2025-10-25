@@ -220,6 +220,9 @@ export const Route = createFileRoute("/_authenticated/corbas/users/")({
     ],
   }),
   component: RouteComponent,
+  loader: () => ({
+    crumb: "Users",
+  }),
 });
 
 function RouteComponent() {

@@ -52,7 +52,6 @@ export function LoginForm({
       onSubmit: loginSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
       handleLoginFormSubmit(value);
     },
   });
